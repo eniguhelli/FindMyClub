@@ -1,3 +1,5 @@
+import DarkModeToggle from "./DarkModeToggle.jsx";
+
 const TopBar = ({ onSearch }) => (
   <div className="topbar">
     <header>
@@ -5,6 +7,7 @@ const TopBar = ({ onSearch }) => (
         placeholder="Search club..."
         onKeyDown={(e) => e.key === "Enter" && onSearch(e.target.value)}
       />
+      <DarkModeToggle />
     </header>
   </div>
 );
