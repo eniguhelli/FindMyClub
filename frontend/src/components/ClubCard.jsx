@@ -6,6 +6,7 @@ const ClubCard = ({ team, onClick }) => (
     <h3>{team.name}</h3>
     <p>{team.area.name}</p>
     <small>{team.venue}</small>
+    <p>Founded: {team.founded}</p>
   </div>
 );
 

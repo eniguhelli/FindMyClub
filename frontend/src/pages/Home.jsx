@@ -24,9 +24,33 @@ export default function Home() {
       <TopBar onSearch={search} />
       <div className="layout">
         <Aside onSelect={loadLeague} />
-        <ClubGrid teams={teams} onSelect={setSelected} />
+        <main>
+          {teams.length === 0 ? (
+            <div className="home-empty">
+              <h1>FindMyClub</h1>
+              <p>Select a league or search for a team to get started</p>
+
+              <div className="home-actions">
+                <div className="home-card">
+                  <h3>Browse Leagues</h3>
+                  <p>Pick a league from the sidebar</p>
+                </div>
+
+                <div className="home-card">
+                  <h3>Search Clubs</h3>
+                  <p>Use the search bar above to find a club by name</p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <ClubGrid teams={teams} onSelect={setSelected} />
+          )}
+        </main>
       </div>
-      {selected && <ClubModal id={selected} onClose={() => setSelected(null)} />}
+
+      {selected && (
+        <ClubModal id={selected} onClose={() => setSelected(null)} />
+      )}
     </>
   );
 }
