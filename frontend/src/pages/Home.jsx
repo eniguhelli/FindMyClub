@@ -11,11 +11,11 @@ export default function Home() {
 
   const loadLeague = async (code) => {
     const res = await api.get(`/leagues/${code}/teams`);
-    setTeams(res.data);
+    setTeams(res.data.map((team) => team) .filter(Boolean));
   };
 
   const search = async (name) => {
-    const res = await api.get(`/teams/search?name=${name}`);
+    const res = await api.get(`/clubs/search`, { params: { name } });
     setTeams(res.data);
   };
 
