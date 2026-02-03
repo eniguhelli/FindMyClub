@@ -1,6 +1,6 @@
-const { searchClubs, getClubById } = require('../services/api');
+const { searchClubs, getClubById, getClubs } = require('../services/api');
 
-const getClubByName = async (req, res) => {
+const getClubByName = (req, res) => {
     try {
         const { name } = req.query;
 
@@ -8,7 +8,16 @@ const getClubByName = async (req, res) => {
             return res.status(400).json({ error: 'Club name is required' });
         }
 
-        const clubs = await searchClubs(name);
+        const clubs = searchClubs(name);
+        res.json(clubs);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch clubs' });
+    }
+};
+
+const getAllClubs = (req, res) => {
+    try {
+        const clubs =  getClubs();
         res.json(clubs);
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch clubs' });
@@ -25,4 +34,4 @@ const getClubByIdController = async (req, res) => {
     }
 };
 
-module.exports = { getClubByName, getClubByIdController };
+module.exports = { getClubByName, getClubByIdController, getAllClubs };
