@@ -31,8 +31,10 @@ const loadBigLeagueTeams = async () => {
   }
 };
 
-const searchClubs = (name) => {
-  if (!bigLeagueTeamsCache.length) return [];
+const searchClubs = async (name) => {
+  if (!bigLeagueTeamsCache.length){
+    await loadBigLeagueTeams();
+  }
   const q = name.toLowerCase();
   return bigLeagueTeamsCache.filter(team =>
     team.name.toLowerCase().includes(q)
