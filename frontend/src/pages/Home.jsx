@@ -1,22 +1,38 @@
 import { useState } from "react";
-import api  from "../services/api";
+import api from "../services/api";
 import Aside from "../components/Aside";
 import ClubGrid from "../components/ClubGrid";
 import TopBar from "../components/TopBar";
 import ClubModal from "../pages/ClubModal";
+import Spinner from "../components/Spinner";
 
 export default function Home() {
   const [teams, setTeams] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const loadLeague = async (code) => {
-    const res = await api.get(`/leagues/${code}/teams`);
-    setTeams(res.data.map((team) => team) .filter(Boolean));
+    try {
+      setLoading(true);
+      const res = await api.get(`/leagues/${code}/teams`);
+      setTeams(res.data.filter(Boolean));
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const search = async (name) => {
-    const res = await api.get(`/clubs/search`, { params: { name } });
-    setTeams(res.data);
+    try {
+      setLoading(true);
+      const res = await api.get(`/clubs/search`, { params: { name } });
+      setTeams(res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -25,7 +41,9 @@ export default function Home() {
       <div className="layout">
         <Aside onSelect={loadLeague} />
         <main>
-          {teams.length === 0 ? (
+          {loading ? (
+            <Spinner />
+          ) : teams.length === 0 ? (
             <div className="home-empty">
               <h1>FindMyClub</h1>
               <p>Select a league or search for a team to get started</p>
